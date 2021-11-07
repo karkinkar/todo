@@ -5,6 +5,18 @@
     background-color: bisque;
 }
 
+#create_story_button {
+    height: 2vh;
+}
+
 html {
     font-family: sans-serif;
+}
+
+#outlined-required {
+    display: block;
+}
+
+#outlined-multiline-static {
+    display: block;
 }
