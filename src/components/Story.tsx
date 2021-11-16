@@ -1,10 +1,15 @@
+import { Card, CardContent, Paper, Typography } from '@mui/material';
 import './Story.css'
 
 export function Story() {
     return (
-        <div id='story'>
-            <div id='storyTitle'>Title</div>
-            <div id='description'>Description</div>
-        </div>
+        <Card variant="outlined">
+            <Paper variant="outlined" elevation={10}>
+                <CardContent>
+                    <Typography variant="h5" fontSize="medium">Title</Typography>
+                    <Typography variant="h6" fontSize="small">Description</Typography>
+                </CardContent>
+            </Paper>
+        </Card>
     );
 }

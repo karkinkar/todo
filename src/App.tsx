@@ -7,6 +7,10 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Drawer from '@mui/material/Drawer';
+import { List, ListItem } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const style = {
   '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -28,10 +32,30 @@ function App() {
   const handleClose = () => setOpen(false);
 
   return (
-    <div id="root">
-      <Column background_color="#ff7575" column_header="ToDo"/>
-      <Column background_color="#61ff8b" column_header="Done"/>
-      <Button id='create_story_button' variant='contained' onClick={handleOpen}>Create Story</Button>
+    <Box sx={{ display: "flex" }}>
+      <Drawer variant="permanent" anchor="left" sx={{
+        flexShrink: 0,
+        width: 240,
+        '.MuiDrawer-paper': {
+          boxSizing: 'border-box'
+        }
+      }}>
+        <List>
+          <ListItem>
+            <Button startIcon={<AddCircleOutlineIcon />} id='create_story_button' variant='contained' onClick={handleOpen}>Create Story</Button>
+          </ListItem>
+        </List>
+      </Drawer>
+      <Box mt={2} sx={{ width: "80vw" }}>
+        <Grid container spacing={1}>
+          <Grid item md={6}>
+            <Column column_header="ToDo" />
+          </Grid>
+          <Grid item md={6}>
+            <Column column_header="Done" />
+          </Grid>
+        </Grid>
+      </Box>
 
       <div>
         <Modal
@@ -47,17 +71,17 @@ function App() {
         >
           <Fade in={open}>
             <Box component="form"
-              sx={ style }
+              sx={style}
               noValidate
               autoComplete="off">
-              <TextField required id="outlined-required" label="Title" defaultValue="Sample Title"/>
-              <TextField id="outlined-multiline-static" label="Description" multiline rows={4} defaultValue="Default Value"/>
+              <TextField required id="outlined-required" label="Title" defaultValue="Sample Title" />
+              <TextField id="outlined-multiline-static" label="Description" multiline rows={4} defaultValue="Default Value" />
             </Box>
           </Fade>
         </Modal>
-    </div>
+      </div>
 
-    </div>
+    </Box >
   )
 }
 
