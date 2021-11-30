@@ -1,0 +1,8 @@
+{
+    "stories": [
+      { "id": 1, "title": "Bring Eggs", "description": "Bring Eggs from REWE" },
+      { "id": 2, "title": "Bring Tomatoes", "description": "Bring Tomatoes from REWE" },
+      { "id": 3, "title": "Bring Onions", "description": "Bring Onions from REWE" },
+      { "id": 4, "title": "Bring Soda", "description": "Bring Soda from REWE" }
+    ]
+  }

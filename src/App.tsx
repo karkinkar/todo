@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Column } from './components/Column';
 import Backdrop from '@mui/material/Backdrop';
@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
 import { List, ListItem } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { StoryClass } from './types/types';
 
 const style = {
   '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -31,6 +32,16 @@ function App() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const get_all_stories = () => {
+    fetch('http://localhost:3000/stories', {
+      method : 'GET'
+    })
+    .then((response) => response.json())
+    .then((data: StoryClass[]) => setStories(data))
+  }
+
+  const [stories, setStories] = useState<StoryClass[]>([])
+  get_all_stories()
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" anchor="left" sx={{
@@ -49,10 +60,10 @@ function App() {
       <Box mt={2} sx={{ width: "80vw" }}>
         <Grid container spacing={1}>
           <Grid item md={6}>
-            <Column column_header="ToDo" />
+            <Column column_header="ToDo" stories={stories}/>
           </Grid>
           <Grid item md={6}>
-            <Column column_header="Done" />
+            <Column column_header="Done" stories={stories}/>
           </Grid>
         </Grid>
       </Box>

@@ -1,11 +1,11 @@
-import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 import './Column.css';
 import { Story } from './Story';
 import { List, ListItem, Paper } from '@mui/material';
+import { StoryClass } from '../types/types';
 
-export function Column(prop: { column_header: string }) {
+export function Column(prop: { column_header: string, stories: StoryClass[] }) {
     return (
         <Box sx={{ height: "80vh" }}>
             <Paper variant="outlined" elevation={5} sx={{ height: "100%" }}>
@@ -18,9 +18,15 @@ export function Column(prop: { column_header: string }) {
                     >{prop.column_header}</Typography>
                 </Paper>
                 <List>
-                    <ListItem>
-                        <Story />
-                    </ListItem>
+                    {
+                        prop.stories.map((story: StoryClass) => {
+                            return (
+                                <ListItem>
+                                    <Story story={story}/>
+                                </ListItem>
+                            )
+                        })
+                    }
                 </List>
             </Paper>
         </Box>
