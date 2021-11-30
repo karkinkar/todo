@@ -8,7 +8,7 @@ import { StoryClass } from '../types/types';
 export function Column(prop: { column_header: string, stories: StoryClass[] }) {
     return (
         <Box sx={{ height: "80vh" }}>
-            <Paper variant="outlined" elevation={5} sx={{ height: "100%" }}>
+            <Paper variant="outlined" elevation={0} sx={{ height: "100%" }}>
                 <Paper elevation={7}>
                     <Typography
                         color="secondary"

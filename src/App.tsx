@@ -9,7 +9,7 @@ import Fade from '@mui/material/Fade';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
-import { List, ListItem } from '@mui/material';
+import { FormGroup, List, ListItem } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { StoryClass } from './types/types';
 
@@ -40,6 +40,24 @@ function App() {
     .then((data: StoryClass[]) => setStories(data))
   }
 
+  const add_story = (story: StoryClass) => {
+    fetch('http://localhost:3000/stories', {
+      method : 'POST',
+      body : JSON.stringify(story),
+      headers : {"Content-Type" : "application/json"}
+    })
+    .then(() => get_all_stories())
+  }
+
+  const onSubmit = (event: any) => {
+    const id = stories.length+1;
+    const title = event.target['title'].value;
+    const description = event.target['description'].value;
+
+    add_story({id, title, description});
+    setOpen(false);
+    event.preventDefault();
+  }
   const [stories, setStories] = useState<StoryClass[]>([])
   get_all_stories()
   return (
@@ -84,9 +102,11 @@ function App() {
             <Box component="form"
               sx={style}
               noValidate
-              autoComplete="off">
-              <TextField required id="outlined-required" label="Title" defaultValue="Sample Title" />
-              <TextField id="outlined-multiline-static" label="Description" multiline rows={4} defaultValue="Default Value" />
+              autoComplete="off"
+              onSubmit={onSubmit}>
+              <TextField required id="title" label="Title" defaultValue="Sample Title" />
+              <TextField id="description" label="Description" multiline rows={4} defaultValue="Default Value" />
+              <input type="submit"/>
             </Box>
           </Fade>
         </Modal>
