@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Column } from './components/Column';
 import Backdrop from '@mui/material/Backdrop';
@@ -59,7 +59,9 @@ function App() {
     event.preventDefault();
   }
   const [stories, setStories] = useState<StoryClass[]>([])
-  get_all_stories()
+
+  useEffect(() => get_all_stories());
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" anchor="left" sx={{
