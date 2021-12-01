@@ -1,14 +1,23 @@
-import { Card, CardContent, Paper, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, IconButton, Paper, Typography } from '@mui/material';
 import { StoryClass } from '../types/types';
 import './Story.css'
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export function Story(prop: {story: StoryClass}) {
+export function Story(prop: {story: StoryClass, delete_story: Function}) {
+    const delete_function = () => prop.delete_story(prop.story.id);
+
     return (
         <Card variant="outlined">
+            <CardHeader action={
+                <IconButton aria-label="delete" size="small" onClick={delete_function}>
+                    <DeleteIcon fontSize="inherit" />
+                </IconButton>
+            }
+            title={prop.story.title}
+            sx={{bgcolor: 'info.dark'}}/>
             <Paper variant="outlined" elevation={10} sx={{ bgcolor: 'info.light' }}>
                 <CardContent>
-                    <Typography variant="h5" fontSize="medium">{prop.story.title}</Typography>
-                    <Typography variant="h6" fontSize="small">{prop.story.description}</Typography>
+                    <Typography variant="h3" fontSize="medium">{prop.story.description}</Typography>
                 </CardContent>
             </Paper>
         </Card>

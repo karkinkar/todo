@@ -9,9 +9,10 @@ import Fade from '@mui/material/Fade';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
-import { FormGroup, List, ListItem } from '@mui/material';
+import { List, ListItem } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { StoryClass } from './types/types';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 
 const style = {
   '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -49,6 +50,14 @@ function App() {
     .then(() => get_all_stories())
   }
 
+  const delete_story = (id: number) => {
+    fetch('http://localhost:3000/stories/'+id, {
+      method : 'DELETE',
+      headers : {"Content-Type" : "application/json"}
+    })
+    .then(() => get_all_stories())
+  }
+
   const onSubmit = (event: any) => {
     const id = stories.length+1;
     const title = event.target['title'].value;
@@ -80,10 +89,10 @@ function App() {
       <Box mt={2} sx={{ width: "80vw" }}>
         <Grid container spacing={1}>
           <Grid item md={6}>
-            <Column column_header="ToDo" stories={stories}/>
+            <Column column_header="ToDo" stories={stories} delete_story={delete_story}/>
           </Grid>
           <Grid item md={6}>
-            <Column column_header="Done" stories={stories}/>
+            <Column column_header="Done" stories={stories} delete_story={delete_story}/>
           </Grid>
         </Grid>
       </Box>
@@ -108,7 +117,7 @@ function App() {
               onSubmit={onSubmit}>
               <TextField required id="title" label="Title" defaultValue="Sample Title" />
               <TextField id="description" label="Description" multiline rows={4} defaultValue="Default Value" />
-              <input type="submit"/>
+              <Button variant="contained" type="submit" endIcon={<AddCircleOutlinedIcon />}>Create Todo</Button>
             </Box>
           </Fade>
         </Modal>

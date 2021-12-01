@@ -5,7 +5,7 @@ import { Story } from './Story';
 import { List, ListItem, Paper } from '@mui/material';
 import { StoryClass } from '../types/types';
 
-export function Column(prop: { column_header: string, stories: StoryClass[] }) {
+export function Column(prop: { column_header: string, stories: StoryClass[], delete_story: Function }) {
     return (
         <Box sx={{ height: "80vh" }}>
             <Paper variant="outlined" elevation={0} sx={{ height: "100%" }}>
@@ -22,7 +22,7 @@ export function Column(prop: { column_header: string, stories: StoryClass[] }) {
                         prop.stories.map((story: StoryClass) => {
                             return (
                                 <ListItem>
-                                    <Story story={story}/>
+                                    <Story story={story} delete_story={prop.delete_story}/>
                                 </ListItem>
                             )
                         })
