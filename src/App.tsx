@@ -35,39 +35,53 @@ function App() {
 
   const get_all_stories = () => {
     fetch('http://localhost:3000/stories', {
-      method : 'GET'
+      method: 'GET'
     })
-    .then((response) => response.json())
-    .then((data: StoryClass[]) => setStories(data))
+      .then((response) => response.json())
+      .then((data: StoryClass[]) => setStories(data))
   }
 
   const add_story = (story: StoryClass) => {
     fetch('http://localhost:3000/stories', {
-      method : 'POST',
-      body : JSON.stringify(story),
-      headers : {"Content-Type" : "application/json"}
+      method: 'POST',
+      body: JSON.stringify(story),
+      headers: { "Content-Type": "application/json" }
     })
-    .then(() => get_all_stories())
+      .then(() => get_all_stories())
+  }
+
+  const mark_story_as_done = (story: StoryClass) => {
+    story.isDone = true;
+    fetch('http://localhost:3000/stories/' + story.id, {
+      method: 'PUT',
+      body: JSON.stringify(story),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(() => get_all_stories())
   }
 
   const delete_story = (id: number) => {
-    fetch('http://localhost:3000/stories/'+id, {
-      method : 'DELETE',
-      headers : {"Content-Type" : "application/json"}
+    fetch('http://localhost:3000/stories/' + id, {
+      method: 'DELETE',
+      headers: { "Content-Type": "application/json" }
     })
-    .then(() => get_all_stories())
+      .then(() => get_all_stories())
   }
 
   const onSubmit = (event: any) => {
-    const id = stories.length+1;
+    const id = stories.length + 1;
     const title = event.target['title'].value;
     const description = event.target['description'].value;
+    const isDone = false;
 
-    add_story({id, title, description});
+    add_story({ id, title, description, isDone });
     setOpen(false);
     event.preventDefault();
   }
   const [stories, setStories] = useState<StoryClass[]>([])
+
+  const todo_stories = stories.filter(story => !story.isDone);
+  const done_stories = stories.filter(story => story.isDone);
 
   useEffect(() => get_all_stories());
 
@@ -89,10 +103,10 @@ function App() {
       <Box mt={2} sx={{ width: "80vw" }}>
         <Grid container spacing={1}>
           <Grid item md={6}>
-            <Column column_header="ToDo" stories={stories} delete_story={delete_story}/>
+            <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
           </Grid>
           <Grid item md={6}>
-            <Column column_header="Done" stories={stories} delete_story={delete_story}/>
+            <Column column_header="Done" stories={done_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
           </Grid>
         </Grid>
       </Box>
