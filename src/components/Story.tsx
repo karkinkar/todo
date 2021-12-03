@@ -6,20 +6,18 @@ import { useState } from 'react';
 
 export function Story(prop: { story: StoryClass, delete_story: Function, mark_as_done: Function }) {
     const delete_function = () => prop.delete_story(prop.story.id);
-    const [isDone, setAsDone] = useState(prop.story.isDone);
     const set_as_done = () => {
-        if (isDone) {
+        if (prop.story.isDone) {
             return;
         }
         prop.mark_as_done(prop.story);
-        setAsDone(true);
     };
 
     return (
         <Card variant="outlined">
             <CardHeader action={
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox checked={isDone} defaultChecked color="success" onClick={set_as_done} />} label="mark as done" />
+                    <FormControlLabel control={<Checkbox checked={prop.story.isDone} defaultChecked color="success" onClick={set_as_done} />} label="mark as done" />
                     <FormControlLabel control={
                         <IconButton aria-label="delete" size="small" onClick={delete_function}>
                             <DeleteIcon fontSize="inherit" />
