@@ -13,6 +13,8 @@ import { List, ListItem } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { StoryClass } from './types/types';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const style = {
   '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -86,58 +88,60 @@ function App() {
   useEffect(() => get_all_stories());
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Drawer variant="permanent" anchor="left" sx={{
-        flexShrink: 0,
-        width: 240,
-        '.MuiDrawer-paper': {
-          boxSizing: 'border-box'
-        }
-      }}>
-        <List>
-          <ListItem>
-            <Button startIcon={<AddCircleOutlineIcon />} id='create_story_button' variant='contained' onClick={handleOpen}>Create Story</Button>
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box mt={2} sx={{ width: "80vw" }}>
-        <Grid container spacing={1}>
-          <Grid item md={6}>
-            <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
+    <DndProvider backend={HTML5Backend}>
+      <Box sx={{ display: "flex" }}>
+        <Drawer variant="permanent" anchor="left" sx={{
+          flexShrink: 0,
+          width: 240,
+          '.MuiDrawer-paper': {
+            boxSizing: 'border-box'
+          }
+        }}>
+          <List>
+            <ListItem>
+              <Button startIcon={<AddCircleOutlineIcon />} id='create_story_button' variant='contained' onClick={handleOpen}>Create Story</Button>
+            </ListItem>
+          </List>
+        </Drawer>
+        <Box mt={2} sx={{ width: "80vw" }}>
+          <Grid container spacing={1}>
+            <Grid item md={6}>
+              <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
+            </Grid>
+            <Grid item md={6}>
+              <Column column_header="Done" stories={done_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
+            </Grid>
           </Grid>
-          <Grid item md={6}>
-            <Column column_header="Done" stories={done_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
 
-      <div>
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={open}
-          onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={open}>
-            <Box component="form"
-              sx={style}
-              noValidate
-              autoComplete="off"
-              onSubmit={onSubmit}>
-              <TextField required id="title" label="Title" defaultValue="Sample Title" />
-              <TextField id="description" label="Description" multiline rows={4} defaultValue="Default Value" />
-              <Button variant="contained" type="submit" endIcon={<AddCircleOutlinedIcon />}>Create Todo</Button>
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
+        <div>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={open}>
+              <Box component="form"
+                sx={style}
+                noValidate
+                autoComplete="off"
+                onSubmit={onSubmit}>
+                <TextField required id="title" label="Title" defaultValue="Sample Title" />
+                <TextField id="description" label="Description" multiline rows={4} defaultValue="Default Value" />
+                <Button variant="contained" type="submit" endIcon={<AddCircleOutlinedIcon />}>Create Todo</Button>
+              </Box>
+            </Fade>
+          </Modal>
+        </div>
 
-    </Box >
+      </Box >
+    </DndProvider>
   )
 }
 

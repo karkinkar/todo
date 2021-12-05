@@ -3,4 +3,8 @@ export type StoryClass = {
     title: string,
     description: string,
     isDone: boolean
-}
+};
+
+export const ItemTypes = {
+    STORY: 'story'
+};
