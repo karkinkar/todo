@@ -8,42 +8,9 @@ import { List, ListItem } from '@mui/material';
 import { StoryClass } from './types/types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { CreateStoryModal } from './components/CreateStoryModal';
+import { add_story, delete_story, get_all_stories, mark_story_as_done } from './apiClient/apiClient';
 
 export function Home() {
-  const get_all_stories = () => {
-    fetch('http://localhost:3000/stories', {
-      method: 'GET'
-    })
-      .then((response) => response.json())
-      .then((data: StoryClass[]) => setStories(data))
-  }
-
-  const add_story = (story: StoryClass) => {
-    fetch('http://localhost:3000/stories', {
-      method: 'POST',
-      body: JSON.stringify(story),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(() => get_all_stories())
-  }
-
-  const mark_story_as_done = (story: StoryClass) => {
-    story.isDone = true;
-    fetch('http://localhost:3000/stories/' + story.id, {
-      method: 'PUT',
-      body: JSON.stringify(story),
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(() => get_all_stories())
-  }
-
-  const delete_story = (id: number) => {
-    fetch('http://localhost:3000/stories/' + id, {
-      method: 'DELETE',
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(() => get_all_stories())
-  }
 
   const onSubmit = (event: any) => {
     const id = stories.length + 1;
@@ -51,7 +18,9 @@ export function Home() {
     const description = event.target['description'].value;
     const isDone = false;
 
-    add_story({ id, title, description, isDone });
+    const newStory = { id, title, description, isDone };
+    setStories([...stories, newStory])
+    add_story(newStory);
     setOpen(false);
     event.preventDefault();
   }
@@ -64,7 +33,10 @@ export function Home() {
   const todo_stories = stories.filter(story => !story.isDone);
   const done_stories = stories.filter(story => story.isDone);
 
-  useEffect(() => get_all_stories());
+  useEffect(() => {
+    console.log("Loading stories");
+    get_all_stories(setStories);
+  }, [stories.length]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -97,3 +69,4 @@ export function Home() {
     </Box >
   )
 };
+
