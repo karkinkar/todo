@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button';
 import React, { useEffect, useState } from 'react';
-import './App.css';
 import { Column } from './components/Column';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -29,7 +28,7 @@ const style = {
   p: 4
 };
 
-function App() {
+export function Home() {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -143,7 +142,4 @@ function App() {
       </Box >
     </DndProvider>
   )
-}
-
-
-export default App;
+};

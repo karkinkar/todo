@@ -1,6 +1,5 @@
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
-import './Column.css';
 import { Story } from './Story';
 import { List, ListItem, Paper } from '@mui/material';
 import { ItemTypes, StoryClass } from '../types/types';
@@ -8,7 +7,7 @@ import { useDrop } from 'react-dnd';
 
 export function Column(prop: { column_header: string, stories: StoryClass[], delete_story: Function, mark_as_done: Function }) {
 
-    const [{ }, drop] = useDrop(
+    const [, drop] = useDrop(
         () => ({
             accept: ItemTypes.STORY,
             drop: (item: StoryClass, monitor) => {
@@ -24,7 +23,6 @@ export function Column(prop: { column_header: string, stories: StoryClass[], del
             <Paper variant="outlined" elevation={0} sx={{ height: "100%" }}>
                 <Paper elevation={7}>
                     <Typography
-                        color="secondary"
                         align="center"
                         variant="h4"
                         gutterBottom={true}
