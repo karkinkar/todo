@@ -28,9 +28,11 @@ export function Story(prop: { story: StoryClass, delete_story: Function, mark_as
                         <Tooltip title="Mark as Done">
                             <Checkbox checked={prop.story.isDone} onClick={set_as_done} />
                         </Tooltip>
-                        <IconButton aria-label="delete" size="small" onClick={delete_function}>
-                            <DeleteIcon fontSize="inherit" />
-                        </IconButton>
+                        <Tooltip title="Delete">
+                            <IconButton aria-label="delete" size="small" onClick={delete_function}>
+                                <DeleteIcon fontSize="inherit" />
+                            </IconButton>
+                        </Tooltip>
                     </FormGroup>
                 }
                     title={prop.story.title}

@@ -19,8 +19,8 @@ export function Column(prop: { column_header: string, stories: StoryClass[], del
     )
 
     return (
-        <Box sx={{ height: "80vh" }} ref={drop}>
-            <Paper variant="outlined" elevation={0} sx={{ height: "100%" }}>
+        <Box id="col" sx={{ height: "100%" }} ref={drop}>
+            <Paper variant="outlined" elevation={0} sx={{ minHeight: "100%" }}>
                 <Paper elevation={7}>
                     <Typography
                         align="center"

@@ -102,7 +102,7 @@ export function Home() {
             </ListItem>
           </List>
         </Drawer>
-        <Box mt={2} sx={{ width: "80vw" }}>
+        <Box mt={2} sx={{ width: "50%" }}>
           <Grid container spacing={1}>
             <Grid item md={6}>
               <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
