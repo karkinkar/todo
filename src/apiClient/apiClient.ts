@@ -1,6 +1,6 @@
 import { StoryClass } from "../types/types"
 
-export default class apiClient {
+export default class ApiClient {
     get_all_stories = (callback: CallableFunction) => {
         fetch('http://localhost:3000/stories', {
             method: 'GET'
