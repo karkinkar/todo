@@ -8,10 +8,11 @@ import { List, ListItem } from '@mui/material';
 import { StoryClass } from './types/types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { CreateStoryModal } from './components/CreateStoryModal';
-import { add_story, delete_story, get_all_stories, mark_story_as_done } from './apiClient/apiClient';
+import ApiClient from './apiClient/ApiClient';
 
 export function Home() {
 
+  const apiClient = new ApiClient();
   const onSubmit = (event: any) => {
     const id = stories.length + 1;
     const title = event.target['title'].value;
@@ -19,8 +20,7 @@ export function Home() {
     const isDone = false;
 
     const newStory = { id, title, description, isDone };
-    setStories([...stories, newStory])
-    add_story(newStory);
+    apiClient.add_story(newStory, () => setStories([...stories, newStory]));
     setOpen(false);
     event.preventDefault();
   }
@@ -30,12 +30,24 @@ export function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const mark_as_done = (storyToRemove: StoryClass) => {
+    apiClient.mark_story_as_done(storyToRemove, () => {
+      setStories(stories.filter(story => story !== storyToRemove))
+    })
+  };
+
+  const delete_story = (id: number) => {
+    apiClient.delete_story(id, () => {
+      setStories(stories.filter(story => story.id !== id))
+    })
+  };
+
   const todo_stories = stories.filter(story => !story.isDone);
   const done_stories = stories.filter(story => story.isDone);
 
   useEffect(() => {
     console.log("Loading stories");
-    get_all_stories(setStories);
+    apiClient.get_all_stories(setStories);
   }, [stories.length]);
 
   return (
@@ -56,10 +68,10 @@ export function Home() {
       <Box mt={2} id='box' sx={{ minWidth: "100vh", minHeight: '100vh' }}>
         <Grid container spacing={1} sx={{ minHeight: '100vh' }}>
           <Grid item md={6}>
-            <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
+            <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_as_done} />
           </Grid>
           <Grid item md={6}>
-            <Column column_header="Done" stories={done_stories} delete_story={delete_story} mark_as_done={mark_story_as_done} />
+            <Column column_header="Done" stories={done_stories} delete_story={delete_story} mark_as_done={mark_as_done} />
           </Grid>
         </Grid>
       </Box>
