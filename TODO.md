@@ -8,3 +8,6 @@
 8) Add additional actions like ->
     -> Mark as undone.
     -> Duplicate.
+9) SubTasks
+10) Better formatting of big text description
+11)

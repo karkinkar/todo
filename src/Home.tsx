@@ -9,6 +9,7 @@ import { StoryClass } from './types/types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { CreateStoryModal } from './components/CreateStoryModal';
 import ApiClient from './apiClient/ApiClient';
+import update from 'immutability-helper';
 
 export function Home() {
 
@@ -30,9 +31,20 @@ export function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const mark_as_done = (storyToRemove: StoryClass) => {
-    apiClient.mark_story_as_done(storyToRemove, () => {
-      setStories(stories.filter(story => story !== storyToRemove))
+  const mark_as_done = (story: StoryClass) => {
+    apiClient.mark_story_as_done(story, () => {
+      const story_index = stories.findIndex((storyTemp) => storyTemp.id === story.id);
+      const updated_stories = update(
+        stories,
+        {
+          [story_index]: {
+            isDone: {
+              $set: true
+            }
+          }
+        }
+      );
+      setStories(updated_stories);
     })
   };
 
