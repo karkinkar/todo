@@ -25,7 +25,10 @@ export function Home() {
     setOpen(false);
     event.preventDefault();
   }
-  const [stories, setStories] = useState<StoryClass[]>([])
+  const [stories, setStories] = useState<StoryClass[]>([]);
+
+  const [todoStories, setTodoStories] = useState<StoryClass[]>([]);
+  const [doneStories, setDoneStories] = useState<StoryClass[]>([]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -45,6 +48,8 @@ export function Home() {
         }
       );
       setStories(updated_stories);
+      setDoneStories(updated_stories.filter(story => story.isDone));
+      setTodoStories(updated_stories.filter(story => !story.isDone));
     })
   };
 
@@ -54,12 +59,13 @@ export function Home() {
     })
   };
 
-  const todo_stories = stories.filter(story => !story.isDone);
-  const done_stories = stories.filter(story => story.isDone);
-
   useEffect(() => {
     console.log("Loading stories");
-    apiClient.get_all_stories(setStories);
+    apiClient.get_all_stories((newStories: StoryClass[]) => {
+      setStories(newStories);
+      setDoneStories(newStories.filter(story => story.isDone));
+      setTodoStories(newStories.filter(story => !story.isDone));
+    });
   }, [stories.length]);
 
   return (
@@ -80,10 +86,10 @@ export function Home() {
       <Box mt={2} id='box' sx={{ minWidth: "100vh", minHeight: '100vh' }}>
         <Grid container spacing={1} sx={{ minHeight: '100vh' }}>
           <Grid item md={6}>
-            <Column column_header="ToDo" stories={todo_stories} delete_story={delete_story} mark_as_done={mark_as_done} />
+            <Column column_header="ToDo" stories={todoStories} delete_story={delete_story} mark_as_done={mark_as_done} />
           </Grid>
           <Grid item md={6}>
-            <Column column_header="Done" stories={done_stories} delete_story={delete_story} mark_as_done={mark_as_done} />
+            <Column column_header="Done" stories={doneStories} delete_story={delete_story} mark_as_done={mark_as_done} />
           </Grid>
         </Grid>
       </Box>
@@ -93,4 +99,3 @@ export function Home() {
     </Box >
   )
 };
-
